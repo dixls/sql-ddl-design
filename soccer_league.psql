@@ -1,0 +1,43 @@
+DROP DATABASE soccer_league
+
+CREATE DATABASE soccer_league
+
+CREATE TABLE teams (
+    id SERIAL PRIMARY KEY,
+    name TEXT   NOT NULL,
+);
+
+CREATE TABLE players (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+);
+
+CREATE TABLE referees (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+);
+
+CREATE TABLE team_player (
+    id SERIAL PRIMARY KEY,
+    team_id int REFERENCES teams.id ON DELETE NULL,
+    player_id int REFERENCES players.id ON DELETE CASCADE,
+);
+
+CREATE TABLE matches (
+    id SERIAL PRIMARY KEY,
+    date date DATE NOT NULL,
+    team1_id int REFERENCES teams.id ON DELETE NULL,
+    team2_id int REFERENCES teams.id ON DELETE NULL,
+    ref_id int REFERENCES referees.id ON DELETE NULL,
+);
+
+CREATE TABLE goals (
+    player_id int REFERENCES players.id ON DELETE CASCADE,
+    match_id int REFERENCES matches.id ON DELETE CASCADE
+);
+
+CREATE TABLE standings (
+    rank SERIAL PRIMARY KEY,
+    team_id int REFERENCES teams.id ON DELETE NULL,
+);
+

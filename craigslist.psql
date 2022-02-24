@@ -1,0 +1,27 @@
+DROP DATABASE craigslist_db;
+
+CREATE DATABASE craigslist_db;
+
+CREATE TABLE regions (
+    id SERIAL PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL
+);
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username TEXT UNIQUE NOT NULL,
+    pref_region INT REFERENCES region ON DELETE NULL
+);
+
+CREATE TABLE categories (
+    id SERIAL PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL
+);
+
+CREATE TABLE posts (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    user_id INT REFERENCES users ON DELETE,
+    region_id INT REFERENCES regions,
+    category_id INT REFERENCES categories
+);
